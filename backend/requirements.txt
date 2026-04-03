@@ -1,0 +1,13 @@
+Flask==2.3.3
+flask-cors==4.0.0
+numpy==1.24.3
+opencv-python==4.8.0.76
+pillow==10.0.0
+matplotlib==3.7.2
+python-dotenv==1.0.0
+
+# For ML model (when you add real model)
+tensorflow==2.13.0
+
+# Optional (for database later)
+pymongo==4.5.0
