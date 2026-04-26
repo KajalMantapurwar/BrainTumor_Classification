@@ -14,6 +14,9 @@ auth_bp = Blueprint('auth', __name__)
 
 # Secret key from .env
 SECRET_KEY = os.getenv("SECRET_KEY")
+from flask import current_app
+
+SECRET_KEY = current_app.config["SECRET_KEY"]
 
 # Temporary DB (replace with MongoDB later)
 users_db = []

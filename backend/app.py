@@ -118,3 +118,19 @@ app.register_blueprint(auth_bp, url_prefix="/api/auth")
 
 if __name__ == "__main__":
     app.run(debug=True)
+    from flask import Flask
+from flask_cors import CORS
+from config import Config
+from routes.auth_routes import auth_bp
+
+app = Flask(__name__)
+CORS(app)
+
+# Load config
+app.config.from_object(Config)
+
+# Register routes
+app.register_blueprint(auth_bp, url_prefix="/api/auth")
+
+if __name__ == "__main__":
+    app.run(debug=app.config["DEBUG"])
