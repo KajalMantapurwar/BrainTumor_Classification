@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_from_directory
+content = '''from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import os
 import uuid
@@ -15,9 +15,8 @@ app = Flask(__name__)
 CORS(app)
 
 # FOLDERS
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER", os.path.join(BASE_DIR, "uploads"))
-GRADCAM_FOLDER = os.getenv("GRADCAM_FOLDER", os.path.join(BASE_DIR, "outputs", "gradcam"))
+UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER", "uploads")
+GRADCAM_FOLDER = os.getenv("GRADCAM_FOLDER", "outputs/gradcam")
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(GRADCAM_FOLDER, exist_ok=True)
@@ -47,19 +46,17 @@ def predict():
         file.save(filepath)
 
         processed_image = preprocess_image(filepath)
-        prediction, confidence = predict_tumor(filepath)
+        prediction, confidence = predict_tumor(processed_image)
 
         gradcam_filename = "gradcam_" + filename
         gradcam_path = os.path.join(app.config["GRADCAM_FOLDER"], gradcam_filename)
 
         generate_gradcam(filepath, gradcam_path)
 
-        import urllib.parse
-        encoded_gradcam_filename = urllib.parse.quote(gradcam_filename)
         return jsonify({
             "prediction": prediction,
             "confidence": float(confidence),
-            "gradcam_url": f"http://127.0.0.1:5000/gradcam/{encoded_gradcam_filename}",
+            "gradcam_url": f"http://127.0.0.1:5000/gradcam/{gradcam_filename}",
             "uploaded_file": filename
         })
 
@@ -74,3 +71,8 @@ def get_gradcam(filename):
 # RUN SERVER
 if __name__ == "__main__":
     app.run(debug=True, host="127.0.0.1", port=5000)
+'''
+
+with open(r'c:\Users\Saloni\Desktop\BrainTumor_Classification\backend\app.py', 'w') as f:
+    f.write(content)
+print('File written successfully')

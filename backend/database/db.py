@@ -1,7 +1,18 @@
 from pymongo import MongoClient
-from config import Config
+import os
+from dotenv import load_dotenv
 
-client = MongoClient(Config.mongodb+srv://Cih2026:Cih2026@cluster0.wzcir6b.mongodb.net/)
-db = client["brain_tumor_db"]
+load_dotenv()
 
-reports_collection = db["reports"]
+# Get MongoDB URI from environment variables
+MONGO_URI = os.getenv("MONGO_URI")
+
+if MONGO_URI:
+    client = MongoClient(MONGO_URI)
+    db = client["brain_tumor_db"]
+    reports_collection = db["reports"]
+else:
+    client = None
+    db = None
+    reports_collection = None
+    print("Warning: MONGO_URI not found in environment variables")
